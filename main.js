@@ -70,22 +70,59 @@ fetchImageUrl = async (fileName) => {
     var res = await fetch(url);
     var data = await res.json();
     var pages = data.query.pages;
-    var imageUrl = Object.values(pages)[0].imageinfo[0].url;
-    return imageUrl;
+    var page = Object.values(pages)[0];
+
+    if (page.imageinfo && page.imageinfo.length > 0) {
+      var imageUrl = page.imageinfo[0].url;
+      return imageUrl;
+    } else {
+      console.error(`No image info found for ${fileName}`);
+      return null;
+    }
   } catch (error) {
     console.error('Error fetching image URL:', error);
     return null;
   }
 }
 
+// function to check if an image URL is available
+isImageAvailable = (url) => {
+  return new Promise((resolve) => {
+    var img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
 // Function to extract bear data from the wikitext
-extractBears = (wikitext) => {
+extractBears = async (wikitext) => {
   var speciesTables = wikitext.split('{{Species table/end}}');
   var bears = [];
+  var bearPromises = [];
 
   speciesTables.forEach((table) => {
     var rows = table.split('{{Species table/row');
-    rows.forEach(async (row) => {
+    rows.forEach((row) => {
+      bearPromises.push(processRow(row));
+    });
+  });
+
+  await Promise.all(bearPromises);
+
+  // After all bears are processed, update the UI
+  var moreBearsSection = document.querySelector('.more_bears');
+  bears.forEach((bear) => {
+    moreBearsSection.innerHTML += `
+        <div>
+            <h3>${bear.name} (${bear.binomial})</h3>
+            <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+            <p><strong>Range:</strong> ${bear.range}</p>
+        </div>
+    `;
+  });
+
+  async function processRow(row) {
       try {
         var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
         var binomialMatch = row.match(/\|binomial=(.*?)\n/);
@@ -96,33 +133,26 @@ extractBears = (wikitext) => {
 
           // Fetch the image URL and handle the bear data
           var imageUrl = await fetchImageUrl(fileName);
-          var bear = {
-            name: nameMatch[1],
-            binomial: binomialMatch[1],
-            image: imageUrl,
-            range: "TODO extract correct range"
-          };
-          bears.push(bear);
 
-          // Only update the UI after all bears are processed
-          if (bears.length === rows.length) {
-            var moreBearsSection = document.querySelector('.more_bears');
-            bears.forEach((bear) => {
-              moreBearsSection.innerHTML += `
-                  <div>
-                      <h3>${bear.name} (${bear.binomial})</h3>
-                      <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-                      <p><strong>Range:</strong> ${bear.range}</p>
-                  </div>
-              `;
-            });
+          if (imageUrl) {
+            var isAvailable = await isImageAvailable(imageUrl);
+            if (isAvailable) {
+              var bear = {
+                name: nameMatch[1],
+                binomial: binomialMatch[1],
+                image: imageUrl,
+                range: "TODO extract correct range"
+              };
+              bears.push(bear);
+            } else {
+              console.log(`Image not available for bear ${nameMatch[1]}`);
+            }
           }
         }
       } catch (error) {
         console.error('Error processing row:', error);
       }
-    });
-  });
+  }
 }
 
 getBearData = async () => {
