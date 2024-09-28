@@ -55,7 +55,7 @@ var params = {
     origin: "*"
 };
 
-function fetchImageUrl(fileName) {
+async function fetchImageUrl(fileName) {
   var imageParams = {
       action: "query",
       titles: `File:${fileName}`,
@@ -66,15 +66,11 @@ function fetchImageUrl(fileName) {
   };
 
   var url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
-  return fetch(url)
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
-      var pages = data.query.pages;
-      var imageUrl = Object.values(pages)[0].imageinfo[0].url;
-      return imageUrl;
-    });
+  var res = await fetch(url);
+  var data = await res.json();
+  var pages = data.query.pages;
+  var imageUrl = Object.values(pages)[0].imageinfo[0].url;
+  return imageUrl;
 }
 
 // Function to extract bear data from the wikitext
@@ -84,53 +80,48 @@ function extractBears(wikitext) {
 
   speciesTables.forEach(function(table) {
     var rows = table.split('{{Species table/row');
-    rows.forEach(function(row) {
+    rows.forEach(async function(row) {
       var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
       var binomialMatch = row.match(/\|binomial=(.*?)\n/);
       var imageMatch = row.match(/\|image=(.*?)\n/);
 
       if (nameMatch && binomialMatch && imageMatch) {
         var fileName = imageMatch[1].trim().replace('File:', '');
-        
-        // Fetch the image URL and handle the bear data
-        fetchImageUrl(fileName).then(function(imageUrl) {
-          var bear = {
-            name: nameMatch[1],
-            binomial: binomialMatch[1],
-            image: imageUrl,
-            range: "TODO extract correct range"
-          };
-          bears.push(bear);
 
-          // Only update the UI after all bears are processed
-          if (bears.length === rows.length) {
-            var moreBearsSection = document.querySelector('.more_bears');
-            bears.forEach(function(bear) {
-              moreBearsSection.innerHTML += `
-                  <div>
-                      <h3>${bear.name} (${bear.binomial})</h3>
-                      <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-                      <p><strong>Range:</strong> ${bear.range}</p>
-                  </div>
-              `;
-            });
-          }
-        });
+        // Fetch the image URL and handle the bear data
+        var imageUrl = await fetchImageUrl(fileName);
+        var bear = {
+          name: nameMatch[1],
+          binomial: binomialMatch[1],
+          image: imageUrl,
+          range: "TODO extract correct range"
+        };
+        bears.push(bear);
+
+        // Only update the UI after all bears are processed
+        if (bears.length === rows.length) {
+          var moreBearsSection = document.querySelector('.more_bears');
+          bears.forEach(function(bear) {
+            moreBearsSection.innerHTML += `
+                <div>
+                    <h3>${bear.name} (${bear.binomial})</h3>
+                    <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+                    <p><strong>Range:</strong> ${bear.range}</p>
+                </div>
+            `;
+          });
+        }
       }
     });
   });
 }
 
-function getBearData() {
+async function getBearData() {
   var url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
-  fetch(url)
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
-      var wikitext = data.parse.wikitext['*'];
-      extractBears(wikitext); // No need to handle promises here
-    });
+  var res = await fetch(url);
+  var data = await res.json();
+  var wikitext = data.parse.wikitext['*'];
+  extractBears(wikitext); // No need to handle promises here
 }
 
 // Fetch and display the bear data
