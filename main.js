@@ -5,7 +5,7 @@ var commentWrapper = document.querySelector('.comment-wrapper');
 
 commentWrapper.style.display = 'none';
 
-showHideBtn.onclick = function() {
+showHideBtn.onclick = () => {
   var showHideText = showHideBtn.textContent;
   if(showHideText == 'Show comments') {
     showHideBtn.textContent = 'Hide comments';
@@ -23,7 +23,7 @@ var nameField = document.querySelector('#name');
 var commentField = document.querySelector('#comment');
 var list = document.querySelector('.comment-container');
 
-form.onsubmit = function(e) {
+form.onsubmit = (e) => {
   e.preventDefault();
   var listItem = document.createElement('li');
   var namePara = document.createElement('p');
@@ -55,7 +55,7 @@ var params = {
     origin: "*"
 };
 
-async function fetchImageUrl(fileName) {
+fetchImageUrl = async (fileName) =>{
   var imageParams = {
       action: "query",
       titles: `File:${fileName}`,
@@ -74,13 +74,13 @@ async function fetchImageUrl(fileName) {
 }
 
 // Function to extract bear data from the wikitext
-function extractBears(wikitext) {
+extractBears = (wikitext) => {
   var speciesTables = wikitext.split('{{Species table/end}}');
   var bears = [];
 
-  speciesTables.forEach(function(table) {
+  speciesTables.forEach((table) => {
     var rows = table.split('{{Species table/row');
-    rows.forEach(async function(row) {
+    rows.forEach(async (row) => {
       var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
       var binomialMatch = row.match(/\|binomial=(.*?)\n/);
       var imageMatch = row.match(/\|image=(.*?)\n/);
@@ -101,7 +101,7 @@ function extractBears(wikitext) {
         // Only update the UI after all bears are processed
         if (bears.length === rows.length) {
           var moreBearsSection = document.querySelector('.more_bears');
-          bears.forEach(function(bear) {
+          bears.forEach((bear) => {
             moreBearsSection.innerHTML += `
                 <div>
                     <h3>${bear.name} (${bear.binomial})</h3>
@@ -116,7 +116,7 @@ function extractBears(wikitext) {
   });
 }
 
-async function getBearData() {
+getBearData = async () => {
   var url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
   var res = await fetch(url);
   var data = await res.json();
