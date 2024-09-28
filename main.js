@@ -134,20 +134,29 @@ extractBears = async (wikitext) => {
           // Fetch the image URL and handle the bear data
           var imageUrl = await fetchImageUrl(fileName);
 
-          if (imageUrl) {
+          // force an invalid image URL to simulate missing images
+          // uncomment the line below to test the placeholder image:
+          //imageUrl = 'https://invalid-url.com/nonexistent-image.jpg';
+
+          // Default to placeholder if image URL is not available
+          if (!imageUrl) {
+            console.log(`Image URL not found for ${nameMatch[1]}, using placeholder.`);
+            imageUrl = 'media/placeholder.png';
+          } else {
+            // check if the image URL is available
             var isAvailable = await isImageAvailable(imageUrl);
-            if (isAvailable) {
-              var bear = {
-                name: nameMatch[1],
-                binomial: binomialMatch[1],
-                image: imageUrl,
-                range: "TODO extract correct range"
-              };
-              bears.push(bear);
-            } else {
-              console.log(`Image not available for bear ${nameMatch[1]}`);
+            if (!isAvailable) {
+              console.log(`Image not available for ${nameMatch[1]}, using placeholder.`);
+              imageUrl = 'media/placeholder.png';
             }
           }
+          var bear = {
+            name: nameMatch[1],
+            binomial: binomialMatch[1],
+            image: imageUrl,
+            range: "TODO extract correct range"
+          };
+          bears.push(bear);
         }
       } catch (error) {
         console.error('Error processing row:', error);
