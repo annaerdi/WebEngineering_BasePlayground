@@ -55,22 +55,27 @@ var params = {
     origin: "*"
 };
 
-fetchImageUrl = async (fileName) =>{
-  var imageParams = {
+fetchImageUrl = async (fileName) => {
+  try {
+    var imageParams = {
       action: "query",
       titles: `File:${fileName}`,
       prop: "imageinfo",
       iiprop: "url",
       format: "json",
       origin: "*"
-  };
+    };
 
-  var url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
-  var res = await fetch(url);
-  var data = await res.json();
-  var pages = data.query.pages;
-  var imageUrl = Object.values(pages)[0].imageinfo[0].url;
-  return imageUrl;
+    var url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
+    var res = await fetch(url);
+    var data = await res.json();
+    var pages = data.query.pages;
+    var imageUrl = Object.values(pages)[0].imageinfo[0].url;
+    return imageUrl;
+  } catch (error) {
+    console.error('Error fetching image URL:', error);
+    return null;
+  }
 }
 
 // Function to extract bear data from the wikitext
@@ -81,36 +86,40 @@ extractBears = (wikitext) => {
   speciesTables.forEach((table) => {
     var rows = table.split('{{Species table/row');
     rows.forEach(async (row) => {
-      var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
-      var binomialMatch = row.match(/\|binomial=(.*?)\n/);
-      var imageMatch = row.match(/\|image=(.*?)\n/);
+      try {
+        var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
+        var binomialMatch = row.match(/\|binomial=(.*?)\n/);
+        var imageMatch = row.match(/\|image=(.*?)\n/);
 
-      if (nameMatch && binomialMatch && imageMatch) {
-        var fileName = imageMatch[1].trim().replace('File:', '');
+        if (nameMatch && binomialMatch && imageMatch) {
+          var fileName = imageMatch[1].trim().replace('File:', '');
 
-        // Fetch the image URL and handle the bear data
-        var imageUrl = await fetchImageUrl(fileName);
-        var bear = {
-          name: nameMatch[1],
-          binomial: binomialMatch[1],
-          image: imageUrl,
-          range: "TODO extract correct range"
-        };
-        bears.push(bear);
+          // Fetch the image URL and handle the bear data
+          var imageUrl = await fetchImageUrl(fileName);
+          var bear = {
+            name: nameMatch[1],
+            binomial: binomialMatch[1],
+            image: imageUrl,
+            range: "TODO extract correct range"
+          };
+          bears.push(bear);
 
-        // Only update the UI after all bears are processed
-        if (bears.length === rows.length) {
-          var moreBearsSection = document.querySelector('.more_bears');
-          bears.forEach((bear) => {
-            moreBearsSection.innerHTML += `
-                <div>
-                    <h3>${bear.name} (${bear.binomial})</h3>
-                    <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-                    <p><strong>Range:</strong> ${bear.range}</p>
-                </div>
-            `;
-          });
+          // Only update the UI after all bears are processed
+          if (bears.length === rows.length) {
+            var moreBearsSection = document.querySelector('.more_bears');
+            bears.forEach((bear) => {
+              moreBearsSection.innerHTML += `
+                  <div>
+                      <h3>${bear.name} (${bear.binomial})</h3>
+                      <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+                      <p><strong>Range:</strong> ${bear.range}</p>
+                  </div>
+              `;
+            });
+          }
         }
+      } catch (error) {
+        console.error('Error processing row:', error);
       }
     });
   });
@@ -118,10 +127,14 @@ extractBears = (wikitext) => {
 
 getBearData = async () => {
   var url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
-  var res = await fetch(url);
-  var data = await res.json();
-  var wikitext = data.parse.wikitext['*'];
-  extractBears(wikitext); // No need to handle promises here
+  try {
+    var res = await fetch(url);
+    var data = await res.json();
+    var wikitext = data.parse.wikitext['*'];
+    extractBears(wikitext); // No need to handle promises here
+  } catch (error) {
+    console.error('Error fetching bear data:', error);
+  }
 }
 
 // Fetch and display the bear data
