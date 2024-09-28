@@ -97,6 +97,7 @@ isImageAvailable = (url) => {
 
 // Function to extract bear data from the wikitext
 extractBears = async (wikitext) => {
+  console.log('wikitext:', wikitext);
   var speciesTables = wikitext.split('{{Species table/end}}');
   var bears = [];
   var bearPromises = [];
@@ -127,6 +128,7 @@ extractBears = async (wikitext) => {
         var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
         var binomialMatch = row.match(/\|binomial=(.*?)\n/);
         var imageMatch = row.match(/\|image=(.*?)\n/);
+        var rangeMatch = row.match(/\|range=(.*?)(\(|\||\n)/);
 
         if (nameMatch && binomialMatch && imageMatch) {
           var fileName = imageMatch[1].trim().replace('File:', '');
@@ -154,7 +156,7 @@ extractBears = async (wikitext) => {
             name: nameMatch[1],
             binomial: binomialMatch[1],
             image: imageUrl,
-            range: "TODO extract correct range"
+            range: rangeMatch ? rangeMatch[1].trim() : 'No range data available'
           };
           bears.push(bear);
         }
