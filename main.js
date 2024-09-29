@@ -1,5 +1,5 @@
-import { initComments } from './commentSection.js';
-import { getBearData } from './bearData.js';
+import { initComments } from './modules/commentSection.js';
+import { getBearData } from './modules/bearData.js';
 
 // Initialize the comments functionality
 initComments();
