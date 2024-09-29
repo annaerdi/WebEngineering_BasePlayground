@@ -43,7 +43,7 @@ Submit your coding repository link in Moodle. Send me an invitation to your repo
 The provided base project template contains some bugs and bad JS coding practices for you to fix in your first playground. Take a look into the component files and get a grasp of the inner workings of the provided project.
 > **ATTENTION: After finishing the JS Playground please create a commit or branch and link it below. Otherwise it is not possible to grade your 1. submission, since we will switch to TypeScript afterwards!**
 > 
-> **This is my JS Playground commit/branch:** <LINK_TO_YOUR_COMMIT>
+> **This is my JS Playground commit/branch:** https://github.com/annaerdi/WebEngineering_BasePlayground/tree/Task-1-JS-Playground
 
 **Tasks:**
 Fix application code and answer the questions:
@@ -56,11 +56,39 @@ Fix application code and answer the questions:
 
 >  **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
 
-Present your findings here...
-``` JS
-console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
-```
-
+* Using ``let`` or ``const`` instead of ``var`` is a good practice because it is block-scoped and not function-scoped. 
+  
+  Also, variables declared with ``var`` are hoisted to the top of their scope, but they are not initialized until their original position in the code. This can cause unexpected behaviors.
+  ``let`` and ``const`` are also hoisted, but they are in a temporal dead zone from the start of the block until the declaration is encountered, which means they cannot be accessed before the declaration. For example:
+  ``` JS
+  console.log(a); // undefined (because of hoisting)
+  var a = 5;
+  
+  console.log(b); // ReferenceError: Cannot access 'b' before initialization
+  let b = 10;
+  ```
+  
+* Another good practice is to use ``if(showHideText === 'Show comments')`` instead of ``if(showHideText == 'Show comments')`` because it is more strict and does not allow type coercion.
+  
+  In JavaScript, the ``==`` operator performs abstract equality comparison, which means it attempts to convert the operands to the same type before making the comparison. This can cause unexpected results if the variables have different types. For example:
+  ``` JS
+  0 == '0'; // true
+  false == '0'; // true
+  null == undefined; // true
+  ```
+  
+  To avoid this, it's recommended to use the `===` operator, which performs strict equality comparison. This means it checks for both value and type equality without performing type coercion.
+  So by using ``===``, we ensure that ``showHideText`` is not only equal to ``'Show comments'`` in value but also that it is of the same type, a.k.a. both are strings.
+  
+* Lastly, it is also a good practice to use inline variables when it would be reduntant otherwise for better readibility. For example:
+  ``` JS
+  // instead of this:
+  const imageUrl = page.imageinfo[0].url;
+  return imageUrl;
+  
+  // use this:
+  return page.imageinfo[0].url;
+  ```
 
 ## 2. Dependency- and Build Management Playground (10 Pts.)
 Build the application with ``npm`` and a build and a dependency management tool of your choice (e.g. [Vite](https://vitejs.dev/), [Webpack](https://webpack.js.org/), or others). 
