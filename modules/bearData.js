@@ -1,8 +1,8 @@
 // Function to fetch the image URLs based on the file names
-var baseUrl = "https://en.wikipedia.org/w/api.php";
-var title = "List_of_ursids";
+const baseUrl = "https://en.wikipedia.org/w/api.php";
+const title = "List_of_ursids";
 
-var params = {
+const params = {
     action: "parse",
     page: title,
     prop: "wikitext",
@@ -13,7 +13,7 @@ var params = {
 
 const fetchImageUrl = async (fileName) => {
     try {
-        var imageParams = {
+        const imageParams = {
             action: "query",
             titles: `File:${fileName}`,
             prop: "imageinfo",
@@ -22,15 +22,14 @@ const fetchImageUrl = async (fileName) => {
             origin: "*"
         };
 
-        var url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
-        var res = await fetch(url);
-        var data = await res.json();
-        var pages = data.query.pages;
-        var page = Object.values(pages)[0];
+        const url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const pages = data.query.pages;
+        const page = Object.values(pages)[0];
 
         if (page.imageinfo && page.imageinfo.length > 0) {
-            var imageUrl = page.imageinfo[0].url;
-            return imageUrl;
+            return page.imageinfo[0].url;
         } else {
             console.error(`No image info found for ${fileName}`);
             return null;
@@ -44,7 +43,7 @@ const fetchImageUrl = async (fileName) => {
 // function to check if an image URL is available
 const isImageAvailable = (url) => {
     return new Promise((resolve) => {
-        var img = new Image();
+        const img = new Image();
         img.onload = () => resolve(true);
         img.onerror = () => resolve(false);
         img.src = url;
@@ -54,12 +53,12 @@ const isImageAvailable = (url) => {
 // Function to extract bear data from the wikitext
 const extractBears = async (wikitext) => {
     console.log('wikitext:', wikitext);
-    var speciesTables = wikitext.split('{{Species table/end}}');
-    var bears = [];
-    var bearPromises = [];
+    const speciesTables = wikitext.split('{{Species table/end}}');
+    const bears = [];
+    const bearPromises = [];
 
     speciesTables.forEach((table) => {
-        var rows = table.split('{{Species table/row');
+        const rows = table.split('{{Species table/row');
         rows.forEach((row) => {
             bearPromises.push(processRow(row));
         });
@@ -68,7 +67,7 @@ const extractBears = async (wikitext) => {
     await Promise.all(bearPromises);
 
     // After all bears are processed, update the UI
-    var moreBearsSection = document.querySelector('.more_bears');
+    const moreBearsSection = document.querySelector('.more_bears');
     bears.forEach((bear) => {
         moreBearsSection.innerHTML += `
         <div>
@@ -81,16 +80,16 @@ const extractBears = async (wikitext) => {
 
     async function processRow(row) {
         try {
-            var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
-            var binomialMatch = row.match(/\|binomial=(.*?)\n/);
-            var imageMatch = row.match(/\|image=(.*?)\n/);
-            var rangeMatch = row.match(/\|range=(.*?)(\(|\||\n)/);
+            const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
+            const binomialMatch = row.match(/\|binomial=(.*?)\n/);
+            const imageMatch = row.match(/\|image=(.*?)\n/);
+            const rangeMatch = row.match(/\|range=(.*?)(\(|\||\n)/);
 
             if (nameMatch && binomialMatch && imageMatch) {
-                var fileName = imageMatch[1].trim().replace('File:', '');
+                const fileName = imageMatch[1].trim().replace('File:', '');
 
                 // Fetch the image URL and handle the bear data
-                var imageUrl = await fetchImageUrl(fileName);
+                let imageUrl = await fetchImageUrl(fileName);
 
                 // force an invalid image URL to simulate missing images
                 // uncomment the line below to test the placeholder image:
@@ -102,13 +101,13 @@ const extractBears = async (wikitext) => {
                     imageUrl = 'media/placeholder.png';
                 } else {
                     // check if the image URL is available
-                    var isAvailable = await isImageAvailable(imageUrl);
+                    const isAvailable = await isImageAvailable(imageUrl);
                     if (!isAvailable) {
                         console.log(`Image not available for ${nameMatch[1]}, using placeholder.`);
                         imageUrl = 'media/placeholder.png';
                     }
                 }
-                var bear = {
+                const bear = {
                     name: nameMatch[1],
                     binomial: binomialMatch[1],
                     image: imageUrl,
@@ -123,11 +122,11 @@ const extractBears = async (wikitext) => {
 }
 
 const getBearData = async () => {
-    var url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
+    const url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
     try {
-        var res = await fetch(url);
-        var data = await res.json();
-        var wikitext = data.parse.wikitext['*'];
+        const res = await fetch(url);
+        const data = await res.json();
+        const wikitext = data.parse.wikitext['*'];
         extractBears(wikitext); // No need to handle promises here
     } catch (error) {
         console.error('Error fetching bear data:', error);
