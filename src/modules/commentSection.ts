@@ -1,7 +1,9 @@
 // functionality for showing/hiding the comments section
-const initCommentsToggle = () => {
-    const showHideBtn = document.querySelector('.show-hide');
-    const commentWrapper = document.querySelector('.comment-wrapper');
+const initCommentsToggle = (): void => {
+    const showHideBtn = document.querySelector('.show-hide') as HTMLDivElement | null;
+    const commentWrapper = document.querySelector('.comment-wrapper') as HTMLDivElement | null;
+
+    if (!showHideBtn || !commentWrapper) return;
 
     commentWrapper.style.display = 'none';
 
@@ -18,13 +20,15 @@ const initCommentsToggle = () => {
 }
 
 // functionality for adding a new comment via the comments form
-const initCommentsForm = () => {
-    const form = document.querySelector('.comment-form');
-    const nameField = document.querySelector('#name');
-    const commentField = document.querySelector('#comment');
-    const list = document.querySelector('.comment-container');
+const initCommentsForm = (): void => {
+    const form = document.querySelector('.comment-form') as HTMLFormElement | null;
+    const nameField = document.querySelector('#name') as HTMLInputElement | null;
+    const commentField = document.querySelector('#comment') as HTMLInputElement | null;
+    const list = document.querySelector('.comment-container') as HTMLUListElement | null;
 
-    form.onsubmit = (e) => {
+    if (!form || !nameField || !commentField || !list) return;
+
+    form.onsubmit = (e: Event) => {
         e.preventDefault();
         const listItem = document.createElement('li');
         const namePara = document.createElement('p');
@@ -44,7 +48,7 @@ const initCommentsForm = () => {
     };
 }
 
-export function initComments() {
+export function initComments(): void {
     initCommentsToggle();
     initCommentsForm();
 }

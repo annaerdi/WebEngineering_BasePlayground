@@ -11,7 +11,7 @@ const params = {
     origin: "*"
 };
 
-const fetchImageUrl = async (fileName) => {
+const fetchImageUrl = async (fileName: string): Promise<string | null> => {
     try {
         const imageParams = {
             action: "query",
@@ -26,7 +26,7 @@ const fetchImageUrl = async (fileName) => {
         const res = await fetch(url);
         const data = await res.json();
         const pages = data.query.pages;
-        const page = Object.values(pages)[0];
+        const page = Object.values(pages)[0] as { imageinfo?: { url: string }[] };
 
         if (page.imageinfo && page.imageinfo.length > 0) {
             return page.imageinfo[0].url;
@@ -41,7 +41,7 @@ const fetchImageUrl = async (fileName) => {
 }
 
 // function to check if an image URL is available
-const isImageAvailable = (url) => {
+const isImageAvailable = (url: string): Promise<boolean> => {
     return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve(true);
@@ -51,11 +51,11 @@ const isImageAvailable = (url) => {
 }
 
 // Function to extract bear data from the wikitext
-const extractBears = async (wikitext) => {
+const extractBears = async (wikitext: string): Promise<void> => {
     console.log('wikitext:', wikitext);
     const speciesTables = wikitext.split('{{Species table/end}}');
-    const bears = [];
-    const bearPromises = [];
+    const bears: { name: string; binomial: string; image: string; range: string }[] = [];
+    const bearPromises: Promise<void>[] = [];
 
     speciesTables.forEach((table) => {
         const rows = table.split('{{Species table/row');
@@ -67,18 +67,20 @@ const extractBears = async (wikitext) => {
     await Promise.all(bearPromises);
 
     // After all bears are processed, update the UI
-    const moreBearsSection = document.querySelector('.more_bears');
+    const moreBearsSection = document.querySelector('.more_bears') as HTMLElement | null;
     bears.forEach((bear) => {
-        moreBearsSection.innerHTML += `
-        <div>
-            <h3>${bear.name} (${bear.binomial})</h3>
-            <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-            <p><strong>Range:</strong> ${bear.range}</p>
-        </div>
-    `;
+        if (moreBearsSection) {
+            moreBearsSection.innerHTML += `
+            <div>
+                <h3>${bear.name} (${bear.binomial})</h3>
+                <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+                <p><strong>Range:</strong> ${bear.range}</p>
+            </div>
+        `;
+        }
     });
 
-    async function processRow(row) {
+    async function processRow(row: string): Promise<void> {
         try {
             const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
             const binomialMatch = row.match(/\|binomial=(.*?)\n/);
@@ -121,7 +123,7 @@ const extractBears = async (wikitext) => {
     }
 }
 
-const getBearData = async () => {
+const getBearData = async (): Promise<void> => {
     const url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
     try {
         const res = await fetch(url);
