@@ -142,6 +142,10 @@ Apply the following ruleset for Prettier:
 
 Present your findings here...
 
+1. **Added type annotations**: Type annotations were added for function return types (e.g., `fetchImageUrl`, `isImageAvailable`, `extractBears`, and `getBearData`, etc..) and for function parameters (e.g., `fileName: string`, `url: string`, `wikitext: string`). This provides better code clarity and ensures type safety, reducing runtime errors by catching incorrect data types during development.
+3. **Type casting**: it was used for specific objects, such as the `page` object in `fetchImageUrl` (`const page = Object.values(pages)[0] as { imageinfo?: { url: string }[] };`) and for DOM elements (`const moreBearsSection = document.querySelector('.more_bears') as HTMLElement | null`). By explicitly defining an expected type, if TypeScript cannot infer it automatically, then it prevents potential type-related bugs.
+4. **Defined custom type** for the `bears` array items, specifying its structure (`const bears: { name: string; binomial: string; image: string; range: string }[] = [];`). This improves the maintainability of the codebase, making it easier to understand the structure of objects and reducing errors when modifying or using these objects throughout the code.
+
 ## 3.	CI/CD Pipeline Playground (5 Pts.)
 Implementation of a CI/CD pipeline to automate the development and deployment process – write automated tests.
 
