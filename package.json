@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged",
+    "lint": "eslint ./src/**/*.{js,ts}",
+    "lint:fix": "eslint ./src/**/*.{js,ts} --fix",
+    "format": "prettier --write ./src/**/*.{js,ts}",
+    "format:check": "prettier --check ./src/**/*.{js,ts}"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
