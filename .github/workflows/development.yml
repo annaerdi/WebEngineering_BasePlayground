@@ -1,0 +1,17 @@
+name: Development Workflow
+
+on:
+  push: 
+    branches: [ development ] # is triggered if push event in release branch occurs
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # run ubuntu
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3 # checkout your repo - this is an official action provided by GitHub
+    - name: Run a multi-line script
+      run: |
+        echo test the checkout action,
+        ls -a
