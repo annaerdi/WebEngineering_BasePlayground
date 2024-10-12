@@ -3,6 +3,7 @@ name: Development Workflow
 on:
    push:
       branches: [development] # is triggered if push event in development branch occurs
+   workflow_call:
 
 jobs:
    test:
