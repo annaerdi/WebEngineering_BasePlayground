@@ -6,7 +6,7 @@ const params = {
   action: 'parse',
   page: title,
   prop: 'wikitext',
-  section: 3,
+  section: '3',
   format: 'json',
   origin: '*',
 };
