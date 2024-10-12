@@ -8,8 +8,6 @@ on:
 jobs:
   test:
     uses: ./.github/workflows/development.yml  # reusing the test and linting jobs from development workflow
-    with:
-      node-version: '18.x'
 
   build:
     needs: test  # so the build only starts after the test job is completed
