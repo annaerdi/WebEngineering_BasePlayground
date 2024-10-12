@@ -1,0 +1,53 @@
+name: Deployment Workflow
+
+on:
+  push:
+    branches: [main]
+
+
+jobs:
+  test:
+    uses: ./.github/workflows/development.yml  # reusing the test and linting jobs from development workflow
+    with:
+      node-version: '18.x'
+
+  build:
+    needs: test  # so the build only starts after the test job is completed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist
+
+  deployment:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: github-pages
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2

@@ -146,4 +146,4 @@ const getBearData = async (): Promise<void> => {
   }
 };
 
-export { getBearData };
+export { getBearData, fetchImageUrl, isImageAvailable };
