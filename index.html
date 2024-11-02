@@ -19,7 +19,7 @@
 
   <body>
     <header role="banner" aria-label="Website header">
-      <font size="7">Welcome to our wildlife website</font>
+      <h1><font size="7">Welcome to our wildlife website</font></h1>
     </header>
 
     <div class="nav" role="navigation" aria-label="Main navigation">
@@ -31,7 +31,15 @@
       </ul>
 
       <form class="search" role="search" aria-label="Site search">
-        <input type="search" name="q" placeholder="Search query" />
+        <label for="search-input" class="visually-hidden"
+          >Search the website</label
+        >
+        <input
+          type="search"
+          id="search-input"
+          name="q"
+          placeholder="Search query"
+        />
         <input type="submit" value="Go!" />
       </form>
     </div>
@@ -160,15 +168,21 @@
           He has never seen a bear, but once read a Daily Mail article about
           them, and thinks they sound cool.
         </aside>
-        <section class="comments">
-          <div class="show-hide">Show comments</div>
+        <section class="comments" aria-label="Comments section">
+          <div
+            class="show-hide"
+            aria-expanded="false"
+            aria-controls="comments-wrapper"
+          >
+            Show comments
+          </div>
 
           <div class="comment-wrapper">
             <h2><font size="6">Add comment</font></h2>
 
             <form class="comment-form" aria-label="Add a comment form">
               <div class="flex-pair">
-                Your name:
+                <label for="name">Your name:</label>
                 <input
                   type="text"
                   name="name"
@@ -177,7 +191,7 @@
                 />
               </div>
               <div class="flex-pair">
-                Your comment:
+                <label for="comment">Your comment:</label>
                 <input
                   type="text"
                   name="comment"

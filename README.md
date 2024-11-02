@@ -215,6 +215,17 @@ Changes made to fix this:
 
 *Present your findings and fixes here.*
 
+Search Form:
+
+* Added a visually hidden label using the `.visually-hidden` class
+* The label is properly associated with the search input using the for attribute
+* Screen readers will announce "Search the website" when focusing on the input
+
+Comment Form:
+
+* Updated the id attributes of the inputs to be unique and descriptive
+* Properly associated labels with inputs using matching for and id attributes
+
 **(0.5) Comment section**
 
 The show/hide comment control button is not currently keyboard-accessible. Can you make it keyboard accessible, both in terms of focusing it using the tab key, and activating it using the return key?
