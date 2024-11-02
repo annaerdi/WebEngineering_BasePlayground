@@ -177,9 +177,11 @@ To see the full report of accessibility, click [here](https://wave.webaim.org/re
 
 Because of the green background color, the contrast ratio was very low everywhere. To mitigate the problem, the color 
 was changed to a lighter shade of green (`#89C889`) to fix the ratio everywhere.
+Additionally, the header text color was changed back.
 
-| Element(s)                                 | Contrast                   |
+| Element(s)                                 | Old Contrast Ratio         |
 |--------------------------------------------|----------------------------|
+| Header                                     | Very low contrast (1.34:1) |
 | Navigation bar  + article body             | Very low contrast (4.08:1) |
 | Article headers + sidebar headers + footer | Very low contrast (2.79:1) |
 | Sidebar with links                         | Very low contrast (1.82:1) |
