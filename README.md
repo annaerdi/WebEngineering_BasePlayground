@@ -202,7 +202,10 @@ Changes made to fix this:
 
 The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — can you add some kind of accessible alternative for these users?
 
-*Present your findings and fixes here.*
+Changes made to fix this:
+- Added a `<figure>` element to group the audio content with its transcript
+- Implemented a collapsible transcript using the `<details>` and `<summary>` elements
+
 
 **(1) Forms** 
   * The ``<input>`` element in the search form at the top could do with a label, but we don't want to add a visible text label that would potentially spoil the design and isn't really needed by sighted users. Fix this issue by adding a label that is only accessible to screen readers.
