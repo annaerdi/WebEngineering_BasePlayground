@@ -171,6 +171,20 @@ Test the current color contrast (text/background), report the results of the tes
 
 *Present your reports here.*
 
+Testing the color ratios was done using the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/).
+
+To see the full report of accessibility, click [here](https://wave.webaim.org/report#/https://annaerdi.github.io/WebEngineering_BasePlayground/).
+
+Because of the green background color, the contrast ratio was very low everywhere. To mitigate the problem, the color 
+was changed to a lighter shade of green (`#89C889`) to fix the ratio everywhere.
+
+| Element(s)                                 | Contrast                   |
+|--------------------------------------------|----------------------------|
+| Navigation bar  + article body             | Very low contrast (4.08:1) |
+| Article headers + sidebar headers + footer | Very low contrast (2.79:1) |
+| Sidebar with links                         | Very low contrast (1.82:1) |
+
+
 **(0.5) Semantic HTML**
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
