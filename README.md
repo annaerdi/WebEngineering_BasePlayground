@@ -189,7 +189,14 @@ was changed to a lighter shade of green (`#89C889`) to fix the ratio everywhere.
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
 
-*Present your reports here.*
+Currently, the screen reader (Narrator on Windows) only reads that "WebEngineering Code Playground has finished loading".
+
+Changes made to fix this:
+
+- Added roles and labels like `role="banner"`, `role="main"`, `aria-label` for better accessibility and navigation.
+- Changed font tags to semantic headings (e.g., `<h2>`, `<h3>`, etc.) for better screen reader support.
+- Added `<label>` elements to inputs in forms to ensure screen readers can identify the purpose of each field.
+- Added `alt` attributes to images to describe them to screen readers.
 
 **(0.5) Audio** 
 

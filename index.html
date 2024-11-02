@@ -1,11 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
 
     <title>Web Engineering Coding Playground</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="/src/style.css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
 
     <!-- the below three lines are a fix to get HTML5 semantic elements working in old versions of Internet Explorer-->
     <!--[if lt IE 9]>
@@ -14,11 +18,11 @@
   </head>
 
   <body>
-    <div class="header">
+    <header role="banner" aria-label="Website header">
       <font size="7">Welcome to our wildlife website</font>
-    </div>
+    </header>
 
-    <div class="nav">
+    <div class="nav" role="navigation" aria-label="Main navigation">
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">Our team</a></li>
@@ -26,29 +30,40 @@
         <li><a href="#">Blog</a></li>
       </ul>
 
-      <form class="search">
-        <input type="search" name="q" placeholder="Search query">
-        <input type="submit" value="Go!">
+      <form class="search" role="search" aria-label="Site search">
+        <input type="search" name="q" placeholder="Search query" />
+        <input type="submit" value="Go!" />
       </form>
     </div>
 
-    <main>
-      <article>
-        <font size="6">The trouble with Bears</font>
-        <br><br>
+    <main role="main" aria-label="Main content area">
+      <article role="article" aria-labelledby="article-title">
+        <h2><font size="6">The trouble with Bears</font></h2>
+        <br /><br />
         By Evan Wild
-        <br><br>
-        Tall, lumbering, angry, dangerous. The real live bears of this world are proud, independent creatures, self-serving and always on the hunt for food. Nothing like the bears you see on TV, like Baloo from renowned documentary, The Jungle Book.
-        <br><br>
-        So what are bears really like, and why does the world's media portray them with such a skewed vision? In this article we try to answer those questions, and give you a real insight into the life of the bear.
-        <br><br>
-        <font size="5">Types of bear</font>
-        <br><br>
-        Bears come in two varieties — large and medium. You don't get small bears. If you have seen a small bear, then it was in fact probably a baby bear (cub) from another species.
-        <br><br>
-        Bears can also be classified in terms of their habitat — both large and medium bears are just as at home in urban areas as they are in the countryside. Different habitats encourange different behaviour however, as you'll find out below. The below table also gives you some useful facts about bears.
-        <br><br>
-        <table>
+        <br /><br />
+        Tall, lumbering, angry, dangerous. The real live bears of this world are
+        proud, independent creatures, self-serving and always on the hunt for
+        food. Nothing like the bears you see on TV, like Baloo from renowned
+        documentary, The Jungle Book.
+        <br /><br />
+        So what are bears really like, and why does the world's media portray
+        them with such a skewed vision? In this article we try to answer those
+        questions, and give you a real insight into the life of the bear.
+        <br /><br />
+        <h3><font size="5">Types of bear</font></h3>
+        <br /><br />
+        Bears come in two varieties — large and medium. You don't get small
+        bears. If you have seen a small bear, then it was in fact probably a
+        baby bear (cub) from another species.
+        <br /><br />
+        Bears can also be classified in terms of their habitat — both large and
+        medium bears are just as at home in urban areas as they are in the
+        countryside. Different habitats encourange different behaviour however,
+        as you'll find out below. The below table also gives you some useful
+        facts about bears.
+        <br /><br />
+        <table role="table" aria-label="Bear facts table">
           <thead>
             <tr>
               <td>Bear Type</td>
@@ -79,85 +94,111 @@
           </tbody>
         </table>
 
-        <font size="5">Habitats and Eating habits</font>
-        <br><br>
-        Wild bears eat a variety of meat, fish, fruit, nuts, and other natually growing ingredients. In general they will hunt for food themselves in woodland or rivers, but at a push they will track down their sustenance from farms or country houses. They tend to live in relative isolation, in caves, tents, or cottages.
-        <br><br>
-        <img src="media/wild-bear.jpg">
-        <br><br>
-        Urban (gentrified) bears on the other hand have largely abandoned the old ways. They will hunt other urban creatures if necessary (including other predators like rats and foxes), but prefer to scavenge from readily available urban food outlets like dumpsters, bins, and fast food joints. When food has proven scarce, urban bears have even been known to break into people's kitchens and steal essentials like baked beans, ready meals, and microwave ovens.
-        <br><br>
-        <img src="media/urban-bear.jpg">
-        <br><br>
-        Urban bears will sleep anywhere they can, from bus shelters and parks, to the toilets in McDonalds, to their own apartment.
-        <br><br>
-        <font size="5">Mating rituals</font>
-        <br><br>
-        Bears are romantic creatures by nature, and will naturally look for a mate that they can spend the rest of their lives with. They will woo a potential suitor by making their dwelling look attractive — for example with cave paintings or a bed of reeds in the case of a wild bear, and mood lighting and a Michael Bublé CD in the case of an urban bear.
-        <br><br>
-        The following audio clip contains a fact file providing more details about bear mating rituals, along with samples and quotes from experts.
-        <br><br>
+        <h3><font size="5">Habitats and Eating habits</font></h3>
+        <br /><br />
+        Wild bears eat a variety of meat, fish, fruit, nuts, and other natually
+        growing ingredients. In general they will hunt for food themselves in
+        woodland or rivers, but at a push they will track down their sustenance
+        from farms or country houses. They tend to live in relative isolation,
+        in caves, tents, or cottages.
+        <br /><br />
+        <img src="media/wild-bear.jpg" />
+        <br /><br />
+        Urban (gentrified) bears on the other hand have largely abandoned the
+        old ways. They will hunt other urban creatures if necessary (including
+        other predators like rats and foxes), but prefer to scavenge from
+        readily available urban food outlets like dumpsters, bins, and fast food
+        joints. When food has proven scarce, urban bears have even been known to
+        break into people's kitchens and steal essentials like baked beans,
+        ready meals, and microwave ovens.
+        <br /><br />
+        <img src="media/urban-bear.jpg" />
+        <br /><br />
+        Urban bears will sleep anywhere they can, from bus shelters and parks,
+        to the toilets in McDonalds, to their own apartment.
+        <br /><br />
+        <h3><font size="5">Mating rituals</font></h3>
+        <br /><br />
+        Bears are romantic creatures by nature, and will naturally look for a
+        mate that they can spend the rest of their lives with. They will woo a
+        potential suitor by making their dwelling look attractive — for example
+        with cave paintings or a bed of reeds in the case of a wild bear, and
+        mood lighting and a Michael Bublé CD in the case of an urban bear.
+        <br /><br />
+        The following audio clip contains a fact file providing more details
+        about bear mating rituals, along with samples and quotes from experts.
+        <br /><br />
         <audio controls>
-          <source src="media/bear.mp3" type="audio/mp3">
-          <source src="media/bear.ogg" type="audio/ogg">
+          <source src="media/bear.mp3" type="audio/mp3" />
+          <source src="media/bear.ogg" type="audio/ogg" />
           <p>It looks like your browser doesn't support HTML5 audio players.</p>
         </audio>
 
         <aside>
-
-          <font size="5">About the author</font>
-        <br><br>
-          Evan Wild is an unemployed plumber from Doncaster, who has been really "in to" wildlife since childhood. He once went to Chester Zoo on holiday, but got ill after eating a doner kebab.
-        <br><br>
-          He has never seen a bear, but once read a Daily Mail article about them, and thinks they sound cool.
-
+          <h3><font size="5">About the author</font></h3>
+          <br /><br />
+          Evan Wild is an unemployed plumber from Doncaster, who has been really
+          "in to" wildlife since childhood. He once went to Chester Zoo on
+          holiday, but got ill after eating a doner kebab.
+          <br /><br />
+          He has never seen a bear, but once read a Daily Mail article about
+          them, and thinks they sound cool.
         </aside>
         <section class="comments">
           <div class="show-hide">Show comments</div>
 
           <div class="comment-wrapper">
+            <h2><font size="6">Add comment</font></h2>
 
-            <font size="6">Add comment</font>
-
-            <form class="comment-form">
+            <form class="comment-form" aria-label="Add a comment form">
               <div class="flex-pair">
                 Your name:
-                <input type="text" name="name" id="name" placeholder="Enter your name">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Enter your name"
+                />
               </div>
               <div class="flex-pair">
                 Your comment:
-                <input type="text" name="comment" id="comment" placeholder="Enter your comment">
+                <input
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  placeholder="Enter your comment"
+                />
               </div>
               <div>
-                <input type="submit" value="Submit comment">
+                <input type="submit" value="Submit comment" />
               </div>
             </form>
 
-            <font size="6">Comments</font>
+            <h2><font size="6">Comments</font></h2>
 
             <ul class="comment-container">
-
               <li>
-
                 <p>Bob Fossil</p>
 
-                <p>Oh I am so glad you taught me all about the big brown angry guys in the woods. With their sniffing little noses and their bad attitudes, they can sure be a menace — I was thinking of putting them all in a truck and driving them outta here. I run a zoo, you know.</p>
-
+                <p>
+                  Oh I am so glad you taught me all about the big brown angry
+                  guys in the woods. With their sniffing little noses and their
+                  bad attitudes, they can sure be a menace — I was thinking of
+                  putting them all in a truck and driving them outta here. I run
+                  a zoo, you know.
+                </p>
               </li>
-
             </ul>
-
           </div>
         </section>
 
         <section class="more_bears">
-          <font size="5">More Bears</font>
-
+          <h3><font size="5">More Bears</font></h3>
         </section>
       </article>
 
       <div class="secondary">
-        <font size="6">Related</font>
+        <h2><font size="6">Related</font></h2>
 
         <ul>
           <li><a href="#">The trouble with Bees</a></li>
@@ -169,11 +210,10 @@
       </div>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
       <p>©Copyright 2050 by nobody. All rights reversed.</p>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>
-
   </body>
 </html>
