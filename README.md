@@ -251,6 +251,9 @@ Explanation of the changes made:
 
 What other accessibility issues did you find? Explain how you did fix them.
 
+Missing `alt` attributes for images.
+Fixed it by Adding `alt` attributes to all images to provide alternative text for screen readers.
+
 # Extended Coding Playgrounds
 Please create a new independent Repository for these playgrounds and submit a link to it in the Moodle submission. 
 Additionally, provide a description of how to start your frontend and backend services inside the `README.md`.
