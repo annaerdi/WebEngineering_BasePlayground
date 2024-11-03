@@ -177,9 +177,11 @@ To see the full report of accessibility, click [here](https://wave.webaim.org/re
 
 Because of the green background color, the contrast ratio was very low everywhere. To mitigate the problem, the color 
 was changed to a lighter shade of green (`#89C889`) to fix the ratio everywhere.
+Additionally, the header text color was changed back.
 
-| Element(s)                                 | Contrast                   |
+| Element(s)                                 | Old Contrast Ratio         |
 |--------------------------------------------|----------------------------|
+| Header                                     | Very low contrast (1.34:1) |
 | Navigation bar  + article body             | Very low contrast (4.08:1) |
 | Article headers + sidebar headers + footer | Very low contrast (2.79:1) |
 | Sidebar with links                         | Very low contrast (1.82:1) |
@@ -189,13 +191,23 @@ was changed to a lighter shade of green (`#89C889`) to fix the ratio everywhere.
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
 
-*Present your reports here.*
+Currently, the screen reader (Narrator on Windows) only reads that "WebEngineering Code Playground has finished loading".
+
+Changes made to fix this:
+
+- Added roles and labels like `role="banner"`, `role="main"`, `aria-label` for better accessibility and navigation.
+- Changed font tags to semantic headings (e.g., `<h2>`, `<h3>`, etc.) for better screen reader support.
+- Added `<label>` elements to inputs in forms to ensure screen readers can identify the purpose of each field.
+- Added `alt` attributes to images to describe them to screen readers.
 
 **(0.5) Audio** 
 
 The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — can you add some kind of accessible alternative for these users?
 
-*Present your findings and fixes here.*
+Changes made to fix this:
+- Added a `<figure>` element to group the audio content with its transcript
+- Implemented a collapsible transcript using the `<details>` and `<summary>` elements
+
 
 **(1) Forms** 
   * The ``<input>`` element in the search form at the top could do with a label, but we don't want to add a visible text label that would potentially spoil the design and isn't really needed by sighted users. Fix this issue by adding a label that is only accessible to screen readers.
@@ -203,21 +215,44 @@ The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — ca
 
 *Present your findings and fixes here.*
 
+Search Form:
+
+* Added a visually hidden label using the `.visually-hidden` class
+* The label is properly associated with the search input using the for attribute
+* Screen readers will announce "Search the website" when focusing on the input
+
+Comment Form:
+
+* Updated the id attributes of the inputs to be unique and descriptive
+* Properly associated labels with inputs using matching for and id attributes
+
 **(0.5) Comment section**
 
 The show/hide comment control button is not currently keyboard-accessible. Can you make it keyboard accessible, both in terms of focusing it using the tab key, and activating it using the return key?
 
 *Present your findings and fixes here.*
 
+To fix the keyboard accessibility of the show/hide comments button, the `div` element was changed to a `button` element, which is natively keyboard accessible.
+The <button> element is focusable and can be activated using the Return (Enter) key.
+
+
 **(1) The table**
 
 The data table is not currently very accessible — it is hard for screen reader users to associate data rows and columns together, and the table also has no kind of summary to make it clear what it shows. Can you add some features to your HTML to fix this problem?
 
-*Present your findings and fixes here.*
+Explanation of the changes made:
+
+- Added a `<caption>` element to provide a summary of the table content
+- Added `<th>` elements to the table headers to make them distinguishable from the data cells
+  - The `scope="col"` attribute specifies that the header relates to the entire column.
+  - The `scope="row"` attribute specifies that the header relates to the entire row.
 
 **(1) More Findings**
 
 What other accessibility issues did you find? Explain how you did fix them.
+
+Missing `alt` attributes for images.
+Fixed it by Adding `alt` attributes to all images to provide alternative text for screen readers.
 
 # Extended Coding Playgrounds
 Please create a new independent Repository for these playgrounds and submit a link to it in the Moodle submission. 
