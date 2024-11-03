@@ -232,11 +232,20 @@ The show/hide comment control button is not currently keyboard-accessible. Can y
 
 *Present your findings and fixes here.*
 
+To fix the keyboard accessibility of the show/hide comments button, the `div` element was changed to a `button` element, which is natively keyboard accessible.
+The <button> element is focusable and can be activated using the Return (Enter) key.
+
+
 **(1) The table**
 
 The data table is not currently very accessible — it is hard for screen reader users to associate data rows and columns together, and the table also has no kind of summary to make it clear what it shows. Can you add some features to your HTML to fix this problem?
 
-*Present your findings and fixes here.*
+Explanation of the changes made:
+
+- Added a `<caption>` element to provide a summary of the table content
+- Added `<th>` elements to the table headers to make them distinguishable from the data cells
+  - The `scope="col"` attribute specifies that the header relates to the entire column.
+  - The `scope="row"` attribute specifies that the header relates to the entire row.
 
 **(1) More Findings**
 
